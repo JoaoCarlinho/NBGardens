@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>NB Gardens Portal</title>
+        <link rel="stylesheet" href="shoppingcart.css" type="text/css" />
+
+   </head>
+    <body>
+        <div id="products" style='visibility: visible'>
+            <div id="1" data-price="42.00" style="position:absolute; left:200px; top:150px;">
+                <img src="images/1.jpg" height="300">         
+            </div>
+            <div style="position:absolute; left:200px; top:450px;">
+                <img src="images/addToCart.png" height="50" onclick='AddToCart("1")'>         
+            </div>
+            <div style="position:absolute; align:right; font-size:18pt; left:425px; top: 455px;">
+            $42.00
+            </div>
+            
+            <div id="2" data-price="55.00" style="position:absolute; left:600px; top:150px;">
+                <img src="images/2.jpg" height="300">         
+            </div>
+            <div style="position:absolute; left:600px; top:450px;">
+                <img src="images/addToCart.png" height="50" onclick='AddToCart("2")'>         
+            </div>
+            <div style="position:absolute; align:right; font-size:18pt; left:825px; top: 455px;">
+            $55.00
+            </div>
+            
+            <div id="3" data-price="35.75" style="position:absolute; left:1000px; top:150px;">
+                <img src="images/3.jpg" height="300">         
+            </div>
+            <div style="position:absolute; left:1000px; top:450px;">
+                <img src="images/addToCart.png" height="50" onclick='AddToCart("3")'>         
+            </div>
+            <div style="position:absolute; align:right; font-size:18pt; left:1225px; top: 455px;">
+            $35.75
+            </div>
+                
+            
+        </div>
+        
+        <div id='TheCart' style='visibility: hidden'>
+                <div style = "position:absolute; align:right; font-size:44pt; left:50px; top: 5px;">
+                The Cart
+                </div>
+                <div style="position:absolute; align:right; font-size:18pt; left:475px; top:50px;">
+                    <img src="images/continue.jpg" height="43" onclick='ContinueShopping()'>
+                </div>
+                <div id="cartItemImages" style="position:absolute; left:75px; top:150px;">
+                </div>
+                
+                <div id="cartItemRemove" style="position:absolute; left:225px; top:150px;">
+                </div>
+                
+                <div id="cartItemPrice" style="position:absolute; left:250px; top:150px;">
+                </div>
+                    
+                <div id="cartItemQuantity" style="position:absolute; left:300px; top:150px;">
+                </div>
+                    
+                <div id="cartItemTotal" style="position:absolute; left:350px; top:150px;">
+                </div>
+                    
+                <div id="cartTotal" style="position:absolute; left:350px; top:125px; font-size:18pt;">
+                    Order Total
+                </div>
+                
+        </div>
+        
+        <div id="ThankYouForYourOrder" style='visibility: hidden; font-size: 144pt;'>
+            Thank You For Your Order
+        </div>
+        
+        <script src="shoppingcart.js"></script>    
+    </body>
+</html>

@@ -1,0 +1,75 @@
+body{overflow:scroll; width:1200px; margin:0 auto 0 auto;
+	
+}
+
+.header { background-color:green; height:100px; overflow:hidden; clear:both;
+}
+
+	.logoLeft{background-color:white; width:200px; float:left; height:100px;
+			
+		
+	}
+	
+	.accountSection{background-color:white; width:200px; float:left; height:100px; margin:0 0 0 800px;
+	}
+
+.searchBar{background-color:gray; height:50px;
+	
+}
+
+.productSection {background-color:blue;  height:600px; font-family: Arial, Helvetica, sans-serif;
+				font-weight: bold;	border-radius: 4px;	text-align: center;
+				font-size: xx-large;
+}
+
+	.productImage{background-color:yellow; height:600px; width:400px; float:left;
+		
+	}
+	
+	.addCartBox{background-color:yellow; height:300px; width:300px; float:left; margin:0 0 0 500px;
+		
+	}
+
+.footer { background-color:red;  height:250px; overflow:hidden scroll;
+    
+}
+.rightFoot{float:left;
+	
+}
+.leftFoot{float:left;
+	
+}
+.newComment{background-color:gray; color:White; height:75px; width:500px; clear:both;
+	
+}
+.companyInfo{background-color:green; color:white; height:200px; width:600px; clear:both; margin:0 0 0 100px;
+	
+}
+
+.commentLog{background-color:#FFFFFF; color:#000000; width:500px; clear:both;
+	
+}
+
+.buttonStyle {
+	border-radius: 4px;
+	border: thin solid #F0E020;
+	padding: 5px;
+	background-color: #F8F094;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	font-weight: bold;
+	color: #663300;
+	width: 75px;
+}
+
+.buttonStyle:hover {
+	border: thin solid #FFCC00;
+	background-color: #FCF9D6;
+	color: #996633;
+	cursor: pointer;
+}
+.buttonStyle:active {
+	border: thin solid #99CC00;
+	background-color: #F5FFD2;
+	color: #669900;
+	cursor: pointer;
+}

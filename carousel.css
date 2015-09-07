@@ -1,0 +1,17 @@
+#main_slider{
+        width:700px; height:600px; margin:0 auto 0 auto; position:relative;
+}
+
+#left_holder{ height:100px; width:100px; clear:both; position:absolute; left:0px; top:200px; 
+}
+
+.left{
+        width:100px; height:100px;
+}
+
+#right_holder{height:100px; width:100px; clear:both; position:absolute; right:0px; top:200px;
+}
+
+.right{
+        width:100px; height:100px;
+}
