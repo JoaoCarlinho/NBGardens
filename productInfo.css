@@ -13,16 +13,16 @@ body{overflow:scroll; width:1200px; margin:0 auto 0 auto;
 	.accountSection{background-color:white; width:200px; float:left; height:100px; margin:0 0 0 800px;
 	}
 
-.searchBar{background-color:gray; height:50px;
+.searchBar{ height:37px; width:400px; margin:10px auto 10px auto; position: relative;
 	
 }
 
 .productSection {background-color:blue;  height:600px; font-family: Arial, Helvetica, sans-serif;
 				font-weight: bold;	border-radius: 4px;	text-align: center;
-				font-size: xx-large;
+				font-size: xx-large; 
 }
 
-	.productImage{background-color:yellow; height:600px; width:400px; float:left;
+	.productImage{background-color:yellow; height:600px; width:400px; float:left; color:black;
 		
 	}
 	
@@ -30,19 +30,27 @@ body{overflow:scroll; width:1200px; margin:0 auto 0 auto;
 		
 	}
 
-.footer { background-color:red;  height:250px; overflow:hidden scroll;
+.footer { background-color:red;  height:250px; overflow:hidden scroll; position:relative;
     
 }
-.rightFoot{float:left;
+
+.indexFoot{ margin:0 auto 0 auto; height:200px; width:600px;
 	
 }
-.leftFoot{float:left;
+.rightFoot{position:absolute; right:0px; top:0px;
+	
+}
+.leftFoot{position:absolute; left:0px; top:0px;
 	
 }
 .newComment{background-color:gray; color:White; height:75px; width:500px; clear:both;
 	
 }
-.companyInfo{background-color:green; color:white; height:200px; width:600px; clear:both; margin:0 0 0 100px;
+.companyInfo{background-color:green; color:white; height:200px; width:600px; margin:0 0 0 100px;
+	
+}
+
+.indexInfo{background-color:green; color:white; height:200px; width:600px;
 	
 }
 

@@ -41,7 +41,7 @@ var link= new Array();
 
 window.setInterval
 (
-    function auto_slide()   
+    function() 
         {
         var pic = document.getElementById('imagen');
         //var hyper = document.getElementById('slide_link');
