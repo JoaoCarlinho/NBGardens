@@ -1,4 +1,9 @@
 <?php
+if($logged ==1){
+    header("Location:home.php");
+    exit();
+}
+
 session_start();
 require('../local/connect.php');
 include('product.php');

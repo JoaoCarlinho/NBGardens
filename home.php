@@ -2,6 +2,10 @@
     require('../local/connect.php');
     $message = "";
     $db = connect();
+    if($logged ==0){
+    header("Location:index.php");
+    exit();
+    }
 
    
 ?>
@@ -16,7 +20,11 @@
     <body>
       	<div>
 			  <h1>Welcome to NBGardens Web Portal</h1>
-              
+              This is the logged in display
+		</div>
+		
+		<div>
+		    <a href="logout.php">Click here to logout</a>
 		</div>
     </body>
 </html>
