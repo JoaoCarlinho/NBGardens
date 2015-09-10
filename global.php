@@ -8,7 +8,7 @@ if(isset($_SESSION['username'])){
     $session_id = $_SESSION['id'];
     
     //check if the customer exists
-    $query = $db->prepare("SELECT * FROM customer WHERE id = '$session_id' AND authenticationCode = $Session_pass LIMIT 1") or die("could not check member");
+    $query = $db->prepare("SELECT * FROM customer WHERE customerID = '$session_id' AND authenticationCode = $Session_pass LIMIT 1") or die("could not check member");
     $query->execute();
     $result = $query->fetchAll(PDO::FETCH_ASSOC);
     $count = count($result);

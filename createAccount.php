@@ -27,14 +27,7 @@ require('../local/connect.php');
         </div>
         
         
-        <div class="footer">
-            
-            <div class="indexFoot">
-                <div class="indexInfo">Place company info in this box along with link to home page
-            
-                </div>
-            </div>
-        </div>
+        <?php include('footer.php'); ?>
         <script type="text/javascript" src="carousel.js"></script>
     </body>
 </html>

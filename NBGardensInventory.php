@@ -1,0 +1,60 @@
+<?php
+    require('../local/connect.php');
+    $db = connect();        
+?>
+<!DOCTYPE html>
+<html lang="en-us">
+
+    <head>
+        <meta charset="utf-8">
+        <title>NB Gardens Web</title>
+        <link rel="stylesheet" href="index.css" type="text/css" />
+        <link rel="stylesheet" href="productInfo.css" type="text/css" />
+    </head>
+    <body>
+        <?php include('header.php'); ?>    
+        <?php include('searchBar.php'); ?>
+        
+        <div>
+            <table style="width:100%">
+                <tr>
+                    <td><a href="productDisplay.php?productID=1"> <div id="1" data-price="42.00"><img src="images/1.jpg" alt="Flipping Gnome" height="200" width="200"></div></a> </td>
+                    <td><a href="productDisplay.php?productID=2"><div id="2" data-price="42.00"><img src="images/2.jpg" alt="Auto Gnome" height="200" width="200"></div></a></td>		
+                    <td><a href="productDisplay.php?productID=3"><div id="3" data-price="42.00"><img src="images/3.jpg" alt="Tottenham Gnome" height="200" width="200"></div></a></td>
+                    <td><a href="productDisplay.php?productID=4"><div id="4" data-price="42.00"><img src="images/4.jpg" alt="Celtic Gnome" height="200" width="200"></div></a></td>
+                    <td><a href="productDisplay.php?productID=5"><div id="5" data-price="42.00"><img src="images/5.jpg" alt="Chelsea Gnome" height="200" width="200"></div></a></td>
+                </tr>
+                
+                <tr>
+                    <td><a href="productDisplay.php?productID=6"><div id="6" data-price="42.00"><img src="images/6.jpg" alt="England" height="200" width="200"></div></a></td>
+                    <td><a href="productDisplay.php?productID=7"><div id="7" data-price="42.00"><img src="images/7.jpg" alt="Angry Gnome" height="200" width="200"></div></a></td>		
+                    <td><a href="productDisplay.php?productID=8"><div id="8" data-price="42.00"><img src="images/8.jpg" alt="Game of Gnomes" height="200" width="200"></div></a></td>
+                    <td><a href="productDisplay.php?productID=9"><div id="9" data-price="42.00"><img src="images/9.jpg" alt="Rocket Gnome" height="200" width="200"></div></a></td>
+                    <td><a href="productDisplay.php?productID=10"><div id="10" data-price="42.00"><img src="images/10.jpg" alt="Sexy Gnome" height="200" width="200"></div></a></td>
+                </tr>
+                
+                <tr>
+                    <td><a href="productDisplay.php?productID=11"><div id="11" data-price="42.00"><img src="images/11.jpg" alt="Bayonnet Gnome" height="200" width="200"></div></a></td>
+                    <td><a href="productDisplay.php?productID=12"><div id="12" data-price="42.00"><img src="images/12.jpg" alt="Welcome Gnome" height="200" width="200"></div></a></td>		
+                    <td><a href="productDisplay.php?productID=13"><div id="13" data-price="42.00"><img src="images/13.jpg" alt="Zombie Gnome" height="200" width="200"></div></a></td>
+                    <td><a href="productDisplay.php?productID=14"><div id="14" data-price="42.00"><img src="images/14.jpg" alt="Fishing Gnome" height="200" width="200"></div></a></td>
+                    <td><a href="productDisplay.php?productID=15"><div id="15" data-price="42.00"><img src="images/15.jpg" alt="Scary Gnome" height="200" width="200"></div></a></td>
+                </tr>
+                
+                <tr>
+                    <td><a href="productDisplay.php?productID=16"><div id="16" data-price="42.00"><img src="images/16.jpg" alt="Laughing Gnome" height="200" width="200"></div></td>
+                    <td><a href="productDisplay.php?productID=17"><div id="17" data-price="42.00"><img src="images/17.jpg" alt="Sleeping Gnome" height="200" width="200"></div></td>		
+                    <td><a href="productDisplay.php?productID=18"><div id="18" data-price="42.00"><img src="images/18.jpg" alt="Dancing Gnome" height="200" width="200"></div></td>
+                    <td><a href="productDisplay.php?productID=19"><div id="19" data-price="42.00"><img src="images/19.jpg" alt="Cricket Gnome" height="200" width="200"></div></td>
+                    <td><a href="productDisplay.php?productID=20"><div id="20" data-price="42.00"><img src="images/20.jpg" alt="Large Gnome" height="200" width="200"></div></td>
+                </tr>
+        
+                
+            </table>
+        </div>
+        
+        <?php include('footer.php'); ?>
+        
+    </div>
+    </body>
+</html>

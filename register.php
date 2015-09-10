@@ -59,13 +59,8 @@
         
     </head>
     <body>
-        <div class="header">
-            <div class="logoLeft">
-            
-            </div>
-            <div class="accountSection">
-                <a href="login.php">Login</a>
-            </div>
+        <?php include('header.php'); ?>    
+        <?php include('searchBar.php'); ?>
         
         </div>
       	<div class="container">
@@ -83,13 +78,7 @@
                 </div>
 		</div>
         
-        <div class="footer">
-            
-            <div class="indexFoot">
-                <div class="indexInfo">Place company info in this box along with link to home page
-            
-                </div>
-            </div>
-        </div>
+        <?php include('footer.php'); ?>    
+        
     </body>
 </html>

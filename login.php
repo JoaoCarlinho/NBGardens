@@ -22,14 +22,15 @@
              if($count_query == 0){
                     $message = 'username and password do not match';
                 }else{
+                    $logged = 1;
                     //start the session
-                    $_SESSION['pass'] = $pass;
+                    $_SESSION['email'] = $pass;
                     foreach($result as $info){
                             $email = $info['email'];
-                            $id = $info['id'];
+                            $id = $info['customerID'];
                     }
                     $_SESSION['email'] =$email;
-                    $_SESSION['id'] =$id;
+                    $_SESSION['customerID'] =$id;
                     
                     if($remember =="yes"){
                         //create the cookies

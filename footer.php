@@ -1,47 +1,4 @@
-<?php
-    if($_SERVER['REQUEST_METHOD']==='POST'){
-        //require('../local/connect.php');
-        //$db = connect();
-        $name=$_POST['name'];
-        $comment=$_POST['comment'];         
-            if($name &&$comment)
-            {
-                $sql="INSERT INTO comment (name, comment) VALUES ('$name','$comment')";
-                $db->exec($sql);
-                echo"Post Successful!";
-            }else
-            {
-            echo "Please insert a name and comment";
-            }
-        
-    }
-?>
-<!DOCTYPE html>
-<html lang="en-us">
-
-<head>
-<meta charset="utf-8">
-<title><?php echo $pageProduct->productName; ?></title>
-<link rel="stylesheet" href="productInfo.css" type="text/css" />
-</head>
-
-<body>
-    <?php include('header.php'); ?>
-    
-    <?php include('searchBar.php'); ?>
-    <div class ="productSection" id="mainContent">
-        <div class="productImage"><?php echo $pageProduct->productName; ?><br>
-             <img src="images/<?php echo $productID; ?>.jpg" alt="<?php echo $pageProduct->productDescription; ?>" height="400" width="400">
-            <?php echo $pageProduct->productDescription; ?><br>
-            $<?php echo $pageProduct->price; ?>
-        </div>
-        
-        <div class="addCartBox">Mini-Cart  displayed here
-            
-        </div>
-        
-        
-    </div>
+<html>
     <div class="footer">
         
         <div class="leftFoot">
@@ -109,9 +66,5 @@
        
         
     </div>
-    <?php
-        $db = null;
-    ?>
-        
-</body>
-</html>
+</html>    
+    

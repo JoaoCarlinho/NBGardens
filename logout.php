@@ -8,7 +8,7 @@ if(isset ($_COOKIE['id_cookie'])){
     setcookie("pass_cookie","",time()-50000,'/');
 }
 
-if(session_is_registered('username')){
+if(session_is_registered('email')){
     echo("Could not log you out, please try again!");
     exit();
 }else{
