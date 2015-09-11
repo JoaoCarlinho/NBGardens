@@ -19,7 +19,7 @@ body{overflow:scroll; width:1200px; margin:0 auto 0 auto;
 
 .productSection {background-color:blue;  height:600px; font-family: Arial, Helvetica, sans-serif;
 				font-weight: bold;	border-radius: 4px;	text-align: center;
-				font-size: xx-large; 
+				font-size: 20px; 
 }
 
 	.productImage{background-color:yellow; height:600px; width:400px; float:left; color:black;

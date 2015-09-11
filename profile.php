@@ -1,10 +1,11 @@
 <?php
-require('../local/connect.php');
+include('global.php');
+require_once('../local/connect.php');
 $db = connect();
 
-if($_logged==0){
+if($logged==0){
     echo("Must log in to view profiles");
-    exit();
+    header("Location:logout.php");
 }
 
 if(isset($_GET['customerID'])){

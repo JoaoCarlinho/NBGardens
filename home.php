@@ -1,12 +1,5 @@
 <?php
-    require('../local/connect.php');
-    $message = "";
-    $db = connect();
-    if($logged ==0){
-    header("Location:index.php");
-    exit();
-    }
-
+include('sessionStatus.php');
    
 ?>
 

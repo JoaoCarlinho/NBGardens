@@ -21,8 +21,9 @@
              
              if($count_query == 0){
                     $message = 'username and password do not match';
+                    header("Location:logout.php");
                 }else{
-                    $logged = 1;
+                    session_start();
                     //start the session
                     $_SESSION['email'] = $pass;
                     foreach($result as $info){
@@ -36,6 +37,7 @@
                         //create the cookies
                     setcookie("id_cookie".$id.time()+60*60*24*100,"/");
                     setcookie("pass_cookie".$pass.time()+60*60*24*100,"/");
+                    $SESSION['pass'] = pass_cookie;
                     }
                     
                     header("Location: home.php");
@@ -54,7 +56,7 @@
     </head>
     <body>
       	<div class="container">
-			  <h1>Welcome to the NB Gardens Account Registration!</h1>
+			  <h1>Welcome to the NB Gardens Login!</h1>
               <p><?php echo $message; ?></p>
                 <div id="login_form">
                    <form action="login.php" method="post">

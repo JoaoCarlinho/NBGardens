@@ -1,62 +1,72 @@
 <?php
-require('../local/connect.php');
-$db = connect();
+include('sessionStatus.php');
 //find out if the customer has a cart with a statusCode of 1
-    /**First need to read the user id from the POST method**/
-    
-    /**Second step is to query shopping_cart for a cart where customerID = $POST['customerID'];**/
-    if(isset($POST['customerID'])){
-        $customerID = $_POST['customerID'];
-        $query = $db->prepare("SELECT * FROM shopping_cart WHERE customerID = ".$_POST['customerID']." AND cartStatus = 1") or die("could not shopping carts");
+    /**First need to read the user id from the session**/
+    if(isset($_SESSION['customerID'])){
+    /**Second step is to query shopping_cart for items where customerID = $POST['customerID'];**/
+       
+        $customerID = $_SESSION['customerID'];
+        $query = $db->prepare("SELECT * FROM shopping_cart WHERE customerID = ".$_SESSION['customerID']." AND cartStatus = 1") or die("could not shopping carts");
         $query->execute();
         $row = $query->fetchAll(PDO::FETCH_ASSOC);
         $count = count($row);
-        //build a cart if a productID was sent in the POST request
-        if(isset($POST['id'])){
-            if($count == 0){
-                echo('No active carts for user');
-                //If no cart for current user initialize empty cart
+     
+       
+        //build a cart 
+        if(isset($_GET['id'])){
+            echo('Adding product with id '.$_GET['id'].' to cart!');
+            if($count == 0){ //If current userhas no active cart
+               echo('No active carts for user');
                 //Initialize empty cart
                 $cart = array();
-            }else{
-                //If user has an active cart, put into an array
+            }
+            else{//If user has an active cart, put into an array
                 $cart = array();
                 //read each returned item's info
-                 foreach($row as $info)
+                 foreach($row as $info){
                     $storedItemID=$info['productID'];
                     $storedItemName=$info['productName'];
                     $storedItemPrice=$info['retailPrice'];
-    	            $storedItemQuantity=$info['NonPorousQuantity']; //set quantity
+    	            $storedItemQuantity=$info['quantityNonPorous']; //set quantity
     	            $cartCreateDate = $info['createDate'];
     	        //put items into a basket for use today    
-    	            $creator[0]=$addedItemID;
-    	            $creator[1]=$addedItemName;
-    	            $creator[2]=$addedItemPrice;
-    	            $creator[3]=$addedItemQuantity;
+    	            $creator[0]=$storedItemID;
+    	            $creator[1]=$storedItemName;
+    	            $creator[2]=$storedItemPrice;
+    	            $creator[3]=$storedItemQuantity;
     	            $cart[]=$creator;
+                    echo('Cart from '.$cartCreateDate.' opened for updates');
+                 }
             }
         }
     }
     
 //Add an item to the cart
-if(isset($_GET['id'])){
+if(isset($_GET['id']) &&isset($_SESSION['customerID'])){
+    //select row to add product info to
     $cartIndex = count($cart) -1;
+    
+    //retrieve product info from database
     $query = $db->prepare("SELECT * FROM inventory WHERE productID = ".$_GET['id']) or die("could not search");
     $query->execute();
 	$result = $query->fetchAll(PDO::FETCH_ASSOC);
      
+     //loop through retreived info and assign it to variables
      foreach($result as $info)
         $addedItemID=$info['productID'];
         $addedItemName=$info['productName'];
         $addedItemPrice=$info['retailPrice'];
 	    $addedItemQuantity=1; //set quantity
 	    
+        //determine if the cart already has a product with same ID inside
 	    $index = -1;
 	    for($ci=0; $ci<count($cart); $ci++)
 	        if($cart[$ci][0]==$_GET['id']){
+                echo('product exists in cart');
 	            $index=$ci;
 	            break;
 	        }
+            //make new row in column if no item currently in cart with same id
 	    if($index==-1){
 	        $temp[0]=$addedItemID;
 	        $temp[1]=$addedItemName;
@@ -64,11 +74,12 @@ if(isset($_GET['id'])){
 	        $temp[3]=$addedItemQuantity;
 	        $cart[]=$temp;
 	    }
+            //increment value for product already in cart
 	    else{
-	        $cart[$index][3]+=1;
+	        $cart[$index][3]++;
 	    }
-	    $query = $db->prepare("INSERT INTO shopping_cart (NonPorousQuantity, lastUpdate) VALUES(".$addedItemQuantity.",".date('Y-m-d H:i:s').") WHERE customerID = ".$_GET['id']) or die("could not search");
-        $query->execute();
+	    $query = $db->prepare("INSERT INTO shopping_cart (customerID, productID, quantityNonPorous, lastUpdate, cartStatus) VALUES(?, ?, ?, ?, ?)") or die("could not search");
+        $query->execute(array($_SESSION['customerID'], $addedItemID, $addedItemQuantity,(str_replace('.', '-', date("m.d.y"))), 1));
         echo$info['productName']." successfully added to cart!";
 }
 
@@ -77,7 +88,7 @@ if(isset($_GET['id'])){
 if(isset($_GET['index'])){
          //If user has an active cart, put into an array
             $cart = array();
-            $query = $db->prepare("SELECT * FROM shopping_cart WHERE customerID = " + $_POST['customerID'] + " AND cartStatus = 1") or die("could not shopping carts");
+            $query = $db->prepare("SELECT * FROM shopping_cart WHERE customerID = " + $_SESSION['customerID'] + " AND cartStatus = 1") or die("could not shopping carts");
             $query->execute();
              $row = $query->fetchAll(PDO::FETCH_ASSOC);
                 $count = count($row);
@@ -101,11 +112,8 @@ if(isset($_GET['index'])){
          
      }
 //if cart has been initialized
-/** Function to retrieve info from storage**/
-//search carts and return cart with customerID that hasn't been submitted
 
 /**Update database with cart info upon page exit**/
-
 
 ?>
 <table cellpadding="2" cellspacing="2" border="1">
@@ -139,6 +147,3 @@ if(isset($_GET['index'])){
 </table>
 <br>
 <a href ="warehouse.php">Continue Shopping</a>
-
-
-/**Ensure Order form updates cart status to submitted **/

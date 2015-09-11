@@ -1,14 +1,14 @@
 <?php
+include('global.php');
 if($logged ==1){
     header("Location:home.php");
     exit();
 }
 
-session_start();
-require('../local/connect.php');
+require_once('../local/connect.php');
 include('product.php');
 $output = '';
- $db = connect();
+$db = connect();
 if(isset($_POST['search'])){
     $searchq = $_POST['search'];
     $searchq = preg_replace("#[^0-9a-z]#i","",$searchq);

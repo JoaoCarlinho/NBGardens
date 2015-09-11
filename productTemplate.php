@@ -1,7 +1,5 @@
 <?php
     if($_SERVER['REQUEST_METHOD']==='POST'){
-        //require('../local/connect.php');
-        //$db = connect();
         $name=$_POST['name'];
         $comment=$_POST['comment'];         
             if($name &&$comment)
@@ -33,7 +31,9 @@
         <div class="productImage"><?php echo $pageProduct->productName; ?><br>
              <img src="images/<?php echo $productID; ?>.jpg" alt="<?php echo $pageProduct->productDescription; ?>" height="400" width="400">
             <?php echo $pageProduct->productDescription; ?><br>
-            $<?php echo $pageProduct->price; ?>
+            $<?php echo $pageProduct->price; ?><br>
+            <a href="shoppingcart.php?id=<?php echo $productID ?>"><div style="height:100px; width:300px background-color:orange;">Add to Cart</div></a>
+            
         </div>
         
         <div class="addCartBox">Mini-Cart  displayed here
