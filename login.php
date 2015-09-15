@@ -25,7 +25,7 @@
                 }else{
                     session_start();
                     //start the session
-                    $_SESSION['email'] = $pass;
+                    $_SESSION['pass'] = $pass;
                     foreach($result as $info){
                             $email = $info['email'];
                             $id = $info['customerID'];

@@ -10,17 +10,9 @@ include('sessionStatus.php');
         $query->execute();
         $row = $query->fetchAll(PDO::FETCH_ASSOC);
         $count = count($row);
-     
-       
-        //build a cart 
-        if(isset($_GET['id'])){
-            echo('Adding product with id '.$_GET['id'].' to cart!');
-            if($count == 0){ //If current userhas no active cart
-               echo('No active carts for user');
-                //Initialize empty cart
-                $cart = array();
-            }
-            else{//If user has an active cart, put into an array
+        
+        if($count > 0){
+                //If user has an active cart, put into an array
                 $cart = array();
                 //read each returned item's info
                  foreach($row as $info){
@@ -28,38 +20,49 @@ include('sessionStatus.php');
                     $storedItemName=$info['productName'];
                     $storedItemPrice=$info['retailPrice'];
     	            $storedItemQuantity=$info['quantityNonPorous']; //set quantity
-    	            $cartCreateDate = $info['createDate'];
     	        //put items into a basket for use today    
     	            $creator[0]=$storedItemID;
     	            $creator[1]=$storedItemName;
     	            $creator[2]=$storedItemPrice;
     	            $creator[3]=$storedItemQuantity;
-    	            $cart[]=$creator;
-                    echo('Cart from '.$cartCreateDate.' opened for updates');
+    	            $cart[]=$creator;                  
                  }
-            }
+        }
+          
+        //add an item to a new cart 
+        else if(isset($_GET['id']) && ($count == 0)){
+            echo('creating new cart for user'.$_SESSION['customerID'].' adding product #'.$_GET['id'].' to cart!');
+
+               echo('No active carts for user');
+                //Initialize empty cart
+                $cart = array();
+                
+                $query = $db->prepare("SELECT * FROM inventory WHERE productID = ".$_GET['id']) or die("could not search");
+                $query->execute();
+                $result = $query->fetchAll(PDO::FETCH_ASSOC);
+                //loop through retreived info and assign it to variables
+                foreach($result as $info){
+                    $addedItemID=$info['productID'];
+                    $addedItemName=$info['productName'];
+                    $addedItemPrice=$info['retailPrice'];
+                }
+	        $temp[0]=$addedItemID;
+	        $temp[1]=$addedItemName;
+	        $temp[2]=$addedItemPrice;
+	        $temp[3]= 1;
+	        $cart[]=$temp;
+	        $query = $db->prepare("INSERT INTO shopping_cart (customerID, productID, retailPrice, quantityNonPorous,  cartStatus) VALUES(?, ?, ?, ?, ?)") or die("could not search");
+            $query->execute(array($_SESSION['customerID'], $addedItemID, $addedItemPrice, 1, 1));   
         }
     }
     
-//Add an item to the cart
-if(isset($_GET['id']) &&isset($_SESSION['customerID'])){
-    //select row to add product info to
-    $cartIndex = count($cart) -1;
-    
-    //retrieve product info from database
-    $query = $db->prepare("SELECT * FROM inventory WHERE productID = ".$_GET['id']) or die("could not search");
-    $query->execute();
-	$result = $query->fetchAll(PDO::FETCH_ASSOC);
-     
-     //loop through retreived info and assign it to variables
-     foreach($result as $info)
-        $addedItemID=$info['productID'];
-        $addedItemName=$info['productName'];
-        $addedItemPrice=$info['retailPrice'];
-	    $addedItemQuantity=1; //set quantity
-	    
+//Add an item to an existing cart
+if(isset($_GET['id']) &&isset($_SESSION['customerID']) && $count >0){
+ 
+      
         //determine if the cart already has a product with same ID inside
-	    $index = -1;
+	    echo 'checking for items already in cart ';
+        $index = -1;
 	    for($ci=0; $ci<count($cart); $ci++)
 	        if($cart[$ci][0]==$_GET['id']){
                 echo('product exists in cart');
@@ -68,19 +71,36 @@ if(isset($_GET['id']) &&isset($_SESSION['customerID'])){
 	        }
             //make new row in column if no item currently in cart with same id
 	    if($index==-1){
+            
+             echo('Adding new item in cart for user '.$_SESSION['customerID']);
+            //retrieve product info from database
+            $query = $db->prepare("SELECT * FROM inventory WHERE productID = ".$_GET['id']) or die("could not search");
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+             //loop through retreived info and assign it to variables
+            foreach($result as $info){
+                $addedItemID=$info['productID'];
+                $addedItemName=$info['productName'];
+                $addedItemPrice=$info['retailPrice'];
+            }
+            
 	        $temp[0]=$addedItemID;
 	        $temp[1]=$addedItemName;
 	        $temp[2]=$addedItemPrice;
-	        $temp[3]=$addedItemQuantity;
+	        $temp[3]= 1;
 	        $cart[]=$temp;
+	        $query = $db->prepare("INSERT INTO shopping_cart (customerID, productID, retailPrice, quantityNonPorous,  cartStatus) VALUES(?, ?, ?, ?, ?)") or die("could not search");
+            $query->execute(array($_SESSION['customerID'], $addedItemID, $addedItemPrice, 1, 1));
 	    }
-            //increment value for product already in cart
+            //increment quantity for product already in cart
 	    else{
+            
 	        $cart[$index][3]++;
-	    }
-	    $query = $db->prepare("INSERT INTO shopping_cart (customerID, productID, quantityNonPorous, lastUpdate, cartStatus) VALUES(?, ?, ?, ?, ?)") or die("could not search");
-        $query->execute(array($_SESSION['customerID'], $addedItemID, $addedItemQuantity,(str_replace('.', '-', date("m.d.y"))), 1));
-        echo$info['productName']." successfully added to cart!";
+	    
+	       $query = $db->prepare("UPDATE shopping_cart SET quantityNonPorous = ".$cart[$index][3]." WHERE productID = ".$_GET['id']." AND cartStatus = 1") or die("could not search");
+            $query->execute();
+            echo$info['productName']." successfully added to cart!";
+       }
 }
 
 
@@ -111,9 +131,21 @@ if(isset($_GET['index'])){
         
          
      }
-//if cart has been initialized
-
-/**Update database with cart info upon page exit**/
+     
+//send cart to checkout page if link for checkout is clicked
+    if(isset($_GET['cartStatus']))
+            $query = $db->prepare("UPDATE shopping_cart SET cartStatus = 0 WHERE customerID = ".$_SESSION['customerID']) or die("could not search");
+            //order should be sent to customer_order_line
+            $query->execute();
+            $_SESSION['cart'] = $cart;
+            $s = 0;
+            
+            for($ci=0; $ci<count($cart); $ci++){
+                $s += $cart[$ci][2] * $cart[$ci][3];
+            }
+                $_SESSION['orderTotal'] = $s;
+            
+             header("Location:checkout.php");
 
 ?>
 <table cellpadding="2" cellspacing="2" border="1">
@@ -124,7 +156,7 @@ if(isset($_GET['index'])){
     <tr>
         <?php
             $s = 0;
-            $index = 0;
+            
             for($ci=0; $ci<count($cart); $ci++){
                 $s += $cart[$ci][2] * $cart[$ci][3];
         ?>
@@ -136,9 +168,9 @@ if(isset($_GET['index'])){
                 <td><?php echo $cart[$ci][3]; ?></td> 
                 <td><?php echo $cart[$ci][2] * $cart[$ci][3]; ?></td> 
             </tr>
-        <?php 
-            $index++;
-        }?>
+        <?php   
+            }
+        ?>
     </tr>
     <tr>
         <td colspan="4" align="right">Sum</td>
@@ -147,3 +179,5 @@ if(isset($_GET['index'])){
 </table>
 <br>
 <a href ="warehouse.php">Continue Shopping</a>
+<a href ="warehouse.php?$cartStatus = 0&$customerID=$_SESSION['customerID']">Checkout!</a>
+
