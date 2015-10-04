@@ -10,10 +10,14 @@
         $pass1 = $_POST['pass1'];
         $pass2 = $_POST['pass2'];
         
+        
+        //ensure all account details have been entered
         //error handling
         if((!$username)||(!$fname)||(!$lname)||(!$pass1)||(!$pass2)){
             $message = 'Please insert all fields in the form below!';
         }else{
+            
+            //ensure both passwords match
             if($pass1 != $pass2){
                 $message='Your password fields do not match!';
             }else{
@@ -32,18 +36,70 @@
                 {
                     $message = 'Duplicate email submitted!';
                 }else{
+                    
+                    //create verification token and send in an email
+                    $length = 30;
+                    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                    $charactersLength = strlen($characters);
+                    $randomString = '';
+                    for ($i = 0; $i < $length; $i++) {
+                        $randomString .= $characters[rand(0, $charactersLength - 1)];
+                    }
                     $ip_address = $_SERVER['REMOTE_ADDR'];
                     $db = connect();
-                    $query = $db->prepare("INSERT INTO customer (firstName, lastName, authenticationCode, ip_address, email)VALUES('$fname','$lname','$pass1','$ip_address','$username')") or die("Could not set up Account");
+                    $query = $db->prepare("INSERT INTO customer (firstName, lastName, authenticationCode, ip_address, email, verify_token)VALUES('$fname','$lname','$pass1','$ip_address','$username', '$verifyToken')") or die("Could not set up Account");
                     $query->execute();
                     $customerID = $db->lastInsertId();
                     mkdir("customers/$customerID",0755);
+                    
+                    $email_from = "accounts@NBGardens.com";
+    		        $email_subject = "NBGardens Customer Portal Account Verification";
+ 		            $email_to=$username;
+ 
+    		        $comments = 'Congratulations, ' . $fname.'! \n
+                        You have successfully registered for\n
+                        NBGardens Customer Portal!
+
+                        Please click on the link below to verify your account and begin shopping with NBGardens\n\n
+                        
+                        <h4><a href="accountVerification.php?verifyToken=<?php echo $randomString ?>&username=<?php echo $username ?>&pass=<?php echo $pass ?>"></h4>';
+    
+    		        $error_message = "";
+ 
+    		        $email_exp = '/^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/';
+ 
+  		if(!preg_match($email_exp,$email)) {
+    			$error_message .= 'The Email Address you entered does not appear to be valid.<br />';
+  		}
+ 
+    		
+  		if(strlen($error_message) > 0) {died($error_message);}
+ 
+ 
+    		function clean_string($string) {
+      			$bad = array("content-type","bcc:","to:","cc:","href");
+      			return str_replace($bad,"",$string);
+    		}
+ 
+    		$email_message = clean_string($comments)."\n";
+ 
+		        // create email headers
+ 
+		        $headers = 'From: '. $email_from ."\r\n".
+ 
+		        'Reply-To: '. $email_from ."\r\n" .
+ 
+		        'X-Mailer: PHP/' . phpversion();
+ 
+		        mail($email_to, $email_subject, $email_message, $headers);
                     $message = "Thank you for signing up with NBGardens Web!"; 
                 }
             }
         } 
         
     }
+    
+    header("Location:accountVerification.php");
 ?>
 
 <!DOCTYPE html>
