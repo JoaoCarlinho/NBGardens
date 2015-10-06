@@ -1,5 +1,5 @@
 <?php
-include('global.php');
+include_once('global.php');
 if($logged ==1){
     header("Location:home.php");
     exit();

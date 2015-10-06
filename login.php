@@ -21,7 +21,7 @@
              
              if($count_query == 0){
                     $message = 'username and password do not match';
-                    header("Location:logout.php");
+                    //header("Location:logout.php");
                 }else{
                     session_start();
                     //start the session
