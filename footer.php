@@ -48,6 +48,7 @@
                 $getquery->execute();
                 //set the resulting array to associative
                 $result = $getquery->setFetchMode(PDO::FETCH_ASSOC);
+                
                 foreach(new TableRows(new RecursiveArrayIterator($getquery->fetchAll())) as $k=>$v)
                 {
                     echo $v;
